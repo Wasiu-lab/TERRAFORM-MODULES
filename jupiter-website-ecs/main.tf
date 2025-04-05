@@ -60,3 +60,16 @@ module "application-load-balancer" {
   vpc_id                     = module.vpc.vpc_id
   certificate_arn            = module.certificate-manager.certificate_arn
 }
+
+# Create ECS Cluster
+module "ecs" {
+  source                      = "../modules/ECS"
+  project_name                = module.vpc.project_name
+  ecs_task_execution_role_arn = module.ecs-task-execution-role.ecs_task_execution_role_arn
+  container_image             = var.container_image
+  region                      = module.vpc.region
+  private_app_subnet_az1_id   = module.vpc.private_app_subnet_az1_id
+  private_app_subnet_az2_id   = module.vpc.private_app_subnet_az2_id
+  ecs_security_group_id       = module.security-groups.ecs_security_group_id
+  alb_target_group_arn        = module.application-load-balancer.alb_target_group_arn
+}
