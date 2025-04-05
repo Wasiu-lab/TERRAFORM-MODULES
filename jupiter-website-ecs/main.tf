@@ -42,3 +42,10 @@ module "ecs-task-execution-role" {
   source       = "../modules/ecs-task-execution-role"
   project_name = module.vpc.project_name
 }
+
+# Create Certificate Manager
+module "certificate-manager" {
+  source           = "../modules/Certificate-Manager"
+  domain_name      = var.domain_name
+  alternative_name = var.alternative_name
+}
